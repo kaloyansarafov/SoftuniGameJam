@@ -68,5 +68,10 @@ namespace StarterAssets
                 }
             }
         }
+
+        public void Dash(float velocity)
+        {
+            transform.position += transform.right * velocity;
+        }
     }
 }
