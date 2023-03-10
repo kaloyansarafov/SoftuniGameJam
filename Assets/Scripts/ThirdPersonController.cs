@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.Assertions;
+using Random = UnityEngine.Random;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -12,7 +16,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
     [RequireComponent(typeof(PlayerInput))]
 #endif
-    public class ThirdPersonController : MonoBehaviour
+    public class ThirdPersonController : NetworkBehaviour
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -86,6 +90,10 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        private NetworkVariable<int> _lives = new NetworkVariable<int>(1);
+        private bool _IsAlive = true;
+        
+        private ClientRpcParams m_OwnerRPCParams;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -132,6 +140,15 @@ namespace StarterAssets
             }
         }
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            //_lives.OnValueChanged += OnLivesChanged;
+            
+            if (IsServer) m_OwnerRPCParams = new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { OwnerClientId } } };
+        }
+
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -155,10 +172,14 @@ namespace StarterAssets
         private void Update()
         {
             _hasAnimator = TryGetComponent(out _animator);
-
-            JumpAndGravity();
             GroundedCheck();
-            Move();
+            
+            
+            if (IsOwner)
+            {
+                JumpAndGravity();
+                Move();
+            }
         }
 
         private void LateUpdate()
@@ -211,7 +232,7 @@ namespace StarterAssets
                 _cinemachineTargetYaw, 0.0f);
         }
 
-        private void Move()
+        public void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
@@ -386,6 +407,31 @@ namespace StarterAssets
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+            }
+        }
+        
+        public void HitByBullet()
+        {
+            Assert.IsTrue(IsServer, "HitByBullet must be called server-side only!");
+            if (!_IsAlive) return;
+
+            _lives.Value -= 1;
+
+            if (_lives.Value <= 0)
+            {
+                // gameover!
+                _IsAlive = false;
+                _lives.Value = 0;
+                //NotifyGameOverClientRpc(GameOverReason.Death, m_OwnerRPCParams);
+                //Instantiate(m_ExplosionParticleSystem, transform.position, quaternion.identity);
+
+                // Hide graphics of this player object server-side. Note we don't want to destroy the object as it
+                // may stop the RPC's from reaching on the other side, as there is only one player controlled object
+                //m_PlayerVisual.enabled = false;
+            }
+            else
+            {
+                //Instantiate(m_HitParticleSystem, transform.position, quaternion.identity);
             }
         }
     }
