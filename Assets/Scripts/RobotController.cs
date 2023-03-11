@@ -81,10 +81,10 @@ namespace StarterAssets
 
         public void Attack()
         {
-            
-            if(gameStarted.Value == false)
-                return;
             animator.SetTrigger("Attack");
+
+            if (gameStarted.Value == false)
+                return;
             // if left click is hit
             Debug.Log("left click");
             GetComponentInChildren<Animator>().SetTrigger("Attack");

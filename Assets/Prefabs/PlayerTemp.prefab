@@ -161,7 +161,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 02281014e4b64cc4893f64d7557ed607, type: 3}
   m_Controller: {fileID: 9100000, guid: afe411796e8139a4494cdb474c63a481, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -256,6 +256,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3858554645909676504}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4129025497045408905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 02281014e4b64cc4893f64d7557ed607,
+    type: 3}
+  m_PrefabInstance: {fileID: 3858554645909676504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1595592911071473133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4129025497045408905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 7270712676255374409}
 --- !u!95 &7270712676255374409 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 02281014e4b64cc4893f64d7557ed607,
