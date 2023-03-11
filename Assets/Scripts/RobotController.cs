@@ -26,12 +26,15 @@ namespace StarterAssets
             //set the player's color
             var meshRenderer = GetComponentInChildren<MeshRenderer>();
             meshRenderer.material.color = Random.ColorHSV();
-            animator = GetComponentInChildren<Animator>();
+            animator.enabled = false;
+            animator.enabled = true;
         }
         
         // Update is called once per frame
         void FixedUpdate()
         {
+            GetComponentInChildren<Animator>().SetBool("Test", true);
+            animator.SetBool("Test", true);
             if (!IsOwner)
             {
                 return;
@@ -46,13 +49,13 @@ namespace StarterAssets
         {
             if (Keyboard.current.wKey.isPressed)
             {
-                GetComponentInChildren<Animator>().SetInteger("Movement", 1);
+                gameObject.GetComponentInChildren<Animator>().SetInteger("Movement", 1);
                 var movement = transform.right * m_MovementSpeed * Time.deltaTime;
                 GetComponent<Rigidbody>().MovePosition(transform.position + movement);
             }
             else
             {
-                GetComponentInChildren<Animator>().SetInteger("Movement", 0);
+                gameObject.GetComponentInChildren<Animator>().SetInteger("Movement", 0);
             }
         }
 
@@ -81,6 +84,7 @@ namespace StarterAssets
             
             if(gameStarted.Value == false)
                 return;
+            animator.SetTrigger("Attack");
             // if left click is hit
             Debug.Log("left click");
             GetComponentInChildren<Animator>().SetTrigger("Attack");
