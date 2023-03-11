@@ -1,6 +1,8 @@
-﻿using Unity.Netcode;
+﻿using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 namespace StarterAssets
 {
@@ -69,9 +71,7 @@ namespace StarterAssets
 
         public void Dash(float velocity)
         {
-            //get the rigidbody of the player and set the velocity to the forward direction of the player * the velocity of the dash
-            GetComponent<Rigidbody>().velocity = transform.forward * velocity;
-
+            transform.position += transform.right * velocity;
         }
 
         public void Attack()
@@ -87,7 +87,7 @@ namespace StarterAssets
                     Debug.Log("hit");
                 }
         }
-        
+
         public void Die()
         {
             isAlive.Value = false;

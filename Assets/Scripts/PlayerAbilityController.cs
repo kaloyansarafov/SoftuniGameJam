@@ -39,7 +39,7 @@ namespace StarterAssets
             switch (state)
             {
                 case AbilityState.Ready:
-                    if (Keyboard.current[Key.F].wasPressedThisFrame)
+                    if (Keyboard.current[(Key)abilityKey].wasPressedThisFrame)
                     {
                         ability.Use(gameObject);
                         state = AbilityState.Active;
