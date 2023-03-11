@@ -15,17 +15,16 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - launchTime >= 1f)
-        {
-            GetComponent<Rigidbody>().velocity -= GetComponent<Rigidbody>().velocity.normalized * 2 * Time.deltaTime;
-        }
+        //if (Time.time - launchTime >= 1f)
+        //{
+        //    GetComponent<Rigidbody>().velocity -= GetComponent<Rigidbody>().velocity.normalized * 2 * Time.deltaTime;
+        //}
     }
-    public void recieveHit(Vector3 directon)
+    public void recieveHit(Vector3 direction)
     {
-        //push the ball at direction
-        GetComponent<Rigidbody>().velocity = directon.normalized * 20;
-        launchTime = Time.time;
+        //push the ball in direction with rb
+        GetComponent<Rigidbody>().velocity = direction.normalized * 20;
         //make velocity slowly decrease
-        
+
     }
 }
