@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4369031466287405592}
   - component: {fileID: 3605388146026670545}
   - component: {fileID: 7205658157705213091}
+  - component: {fileID: 3333125435532496676}
   m_Layer: 0
   m_Name: PlayerTemp
   m_TagString: Untagged
@@ -125,6 +126,20 @@ CapsuleCollider:
   m_Height: 0.88
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3333125435532496676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2229633654365788473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d42bcc23d828416dbd22559728e7a6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ability: {fileID: 11400000, guid: 5fb684fd18a184c4b990703ab0370366, type: 2}
+  abilityKey: 102
 --- !u!1 &2229633654581011191
 GameObject:
   m_ObjectHideFlags: 0

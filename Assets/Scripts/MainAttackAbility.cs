@@ -10,7 +10,7 @@ namespace StarterAssets
         {
             base.Use(player);
             RobotController controller = player.GetComponent<RobotController>();
-            //controller.MeleeAttack();
+            controller.Attack();
         }
     }
 }

@@ -33,7 +33,9 @@ namespace StarterAssets
 
             LookAtMouse();
             
-            MeleeAttack();
+           
+            
+           
         }
 
         private void Move()
@@ -57,17 +59,7 @@ namespace StarterAssets
             transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
         }
 
-        private void MeleeAttack()
-        {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-                if (Physics.Raycast(ray, out var hit))
-                {
-                    
-                }
-            }
-        }
+      
 
         public void Dash(float velocity)
         {
@@ -80,8 +72,7 @@ namespace StarterAssets
         {
 
             // if left click is hit
-            if (Mouse.current.leftButton.wasPressedThisFrame)
-            {
+           
                 Debug.Log("left click");
                 if (Physics.OverlapSphere(transform.position, 10, LayerMask.GetMask("Ball")).Length > 0)
                 {
@@ -89,7 +80,7 @@ namespace StarterAssets
                         .GetComponent<BallController>().recieveHit(transform.forward);
                     Debug.Log("hit");
                 }
-            }
+            
 
 
         }
