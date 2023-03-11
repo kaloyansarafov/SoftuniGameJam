@@ -22,6 +22,7 @@ namespace StarterAssets
         {
             
             base.OnNetworkSpawn();
+            isAlive.OnValueChanged += Die;
             //set the player's color
             var meshRenderer = GetComponentInChildren<MeshRenderer>();
             meshRenderer.material.color = Random.ColorHSV();
@@ -43,12 +44,7 @@ namespace StarterAssets
 
         private void Move()
         {
-            var movement = new Vector3(
-                Keyboard.current.aKey.isPressed ? -1 : Keyboard.current.dKey.isPressed ? 1 : 0,
-                0,
-                Keyboard.current.sKey.isPressed ? -1 : Keyboard.current.wKey.isPressed ? 1 : 0
-            );
-            if (movement is { z: 0, x: 0 })
+            if (Keyboard.current.wKey.isPressed)
             {
                 GetComponentInChildren<Animator>().SetInteger("Movement", 0);
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -75,7 +71,9 @@ namespace StarterAssets
 
         public void Dash(float velocity)
         {
-            transform.position += transform.right * velocity;
+            if(gameStarted.Value == false)
+                return;
+            GetComponent<Rigidbody>().velocity = transform.right * velocity;
         }
 
         public void Attack()
@@ -88,6 +86,7 @@ namespace StarterAssets
             GetComponentInChildren<Animator>().SetTrigger("Attack");
             if (Physics.OverlapSphere(new Vector3(transform.right.x + transform.position.x, transform.position.y + transform.right.y, transform.position.z + transform.right.z), 2f, LayerMask.GetMask("Ball")).Length > 0)
             {
+                Debug.Log(LayerMask.GetMask("Ball"));
                 Physics.OverlapSphere(transform.position, 10f, LayerMask.GetMask("Ball"))[0].gameObject
                     .GetComponent<BallController>().recieveHit(new Vector3(transform.forward.z, transform.forward.y, -transform.forward.x));
 
@@ -100,13 +99,16 @@ namespace StarterAssets
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(new Vector3(transform.right.x + transform.position.x , transform.position.y + transform.right.y, transform.position.z + transform.right.z), 2f);
+            Gizmos.DrawWireSphere(new Vector3(transform.right.x + transform.position.x , transform.position.y + transform.right.y, transform.position.z + transform.right.z), 3f);
         }
         
-        public void Die()
+        public void Die(bool oldVal, bool newVal)
         {
-            isAlive.Value = false;
-            Destroy(gameObject);
+            if (!IsOwner || !IsServer)
+                return;
+            
+            if (newVal == false)
+                Destroy(gameObject);
         }
     }
 }

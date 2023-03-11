@@ -16,7 +16,12 @@ GameObject:
   - component: {fileID: 3605388146026670545}
   - component: {fileID: 7205658157705213091}
   - component: {fileID: 7613802593140365188}
+<<<<<<< HEAD
   - component: {fileID: 3065841893955998390}
+=======
+  - component: {fileID: 8282139936748746953}
+  - component: {fileID: 4528285077586121708}
+>>>>>>> 283ec4fa9d6e22d1ebf0d2b5d13021b680777247
   m_Layer: 0
   m_Name: PlayerTemp
   m_TagString: Player
@@ -85,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4487130e585e4c35b59f37b45bbed1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovementSpeed: 3
+  m_MovementSpeed: 15
   isAlive:
     m_InternalValue: 1
   gameStarted:
@@ -131,10 +136,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.3199959
-  m_Height: 5.7447977
+  m_Radius: 1.319996
+  m_Height: 7.121328
   m_Direction: 1
-  m_Center: {x: 0.13928413, y: 3.2223945, z: 0.6807122}
+  m_Center: {x: 0.13928413, y: 3.196091, z: 0.6807122}
 --- !u!114 &7613802593140365188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,16 +154,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ability: {fileID: 11400000, guid: 5fb684fd18a184c4b990703ab0370366, type: 2}
   abilityKey: 20
+<<<<<<< HEAD
   animator: {fileID: 3065841893955998390}
 --- !u!95 &3065841893955998390
 Animator:
   serializedVersion: 5
+=======
+--- !u!114 &8282139936748746953
+MonoBehaviour:
+>>>>>>> 283ec4fa9d6e22d1ebf0d2b5d13021b680777247
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2229633654365788473}
   m_Enabled: 1
+<<<<<<< HEAD
   m_Avatar: {fileID: 9000000, guid: 5ab0ae63d05ee924389abd03fe8d0c9c, type: 3}
   m_Controller: {fileID: 9100000, guid: afe411796e8139a4494cdb474c63a481, type: 2}
   m_CullingMode: 1
@@ -172,6 +183,39 @@ Animator:
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &3858554645909676504
+=======
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5715ad7a43088a44898f7b71dff10563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 0
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1
+--- !u!114 &4528285077586121708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2229633654365788473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &8041296998453387455
+>>>>>>> 283ec4fa9d6e22d1ebf0d2b5d13021b680777247
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
