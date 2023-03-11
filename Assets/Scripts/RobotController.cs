@@ -74,10 +74,22 @@ namespace StarterAssets
             //get the rigidbody of the player and set the velocity to the forward direction of the player * the velocity of the dash
             GetComponent<Rigidbody>().velocity = transform.forward * velocity;
 
+        }
 
+        public void Attack()
+        {
 
-
-
+            // if left click is hit
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                Debug.Log("left click");
+                if (Physics.OverlapSphere(transform.position, 10, LayerMask.GetMask("Ball")).Length > 0)
+                {
+                    Physics.OverlapSphere(transform.position, 10, LayerMask.GetMask("Ball"))[0].gameObject
+                        .GetComponent<BallController>().recieveHit(transform.forward);
+                    Debug.Log("hit");
+                }
+            }
 
 
         }
