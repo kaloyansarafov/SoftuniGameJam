@@ -13,6 +13,9 @@ namespace StarterAssets
         private Vector3 object_pos;
         private float angle;
 
+        public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false);
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
@@ -34,10 +37,6 @@ namespace StarterAssets
             Move();
 
             LookAtMouse();
-            
-           
-            
-           
         }
 
         private void Move()
@@ -47,7 +46,14 @@ namespace StarterAssets
                 0,
                 Keyboard.current.sKey.isPressed ? -1 : Keyboard.current.wKey.isPressed ? 1 : 0
             );
-           transform.position += movement * m_MovementSpeed * Time.deltaTime;
+            if (movement is { z: 0, x: 0 })
+            {
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
+            }
+            else
+            {
+                transform.position += movement * (m_MovementSpeed * Time.deltaTime);
+            }
         }
 
         private void LookAtMouse()
