@@ -28,6 +28,8 @@ public class BallController : NetworkBehaviour
         //if(!IsServer)
         //   return;
         
+        Debug.Log(other.gameObject.tag);
+        
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("hit player");

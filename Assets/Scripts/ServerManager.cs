@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using StarterAssets;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,7 +18,7 @@ public class ServerManager : NetworkBehaviour
 
     void OnGUI()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+        GUILayout.BeginArea(new Rect(10, 40, 300, 300));
         if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
         {
             StartButtons();
@@ -32,15 +33,16 @@ public class ServerManager : NetworkBehaviour
 
     static void StartButtons()
     {
-        var ip = GUILayout.TextField("127.0.0.1");
-        
         if (GUILayout.Button("Host")) NetworkManager.Singleton.StartHost();
         if (GUILayout.Button("Client"))
         {
             var utpTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
             if (utpTransport)
             {
-                utpTransport.SetConnectionData(Sanitize(ip), 7777);
+                var ip = GameObject.Find("InputField").GetComponent<TMPro.TMP_InputField>().text;
+                Debug.Log(ip);
+                utpTransport.SetConnectionData(ip, (ushort)7777);
+                Debug.Log(utpTransport.ConnectionData.Address + " " + utpTransport.ConnectionData.Port);
             }
             if (!NetworkManager.Singleton.StartClient())
             {
@@ -48,12 +50,6 @@ public class ServerManager : NetworkBehaviour
             }
         }
         if (GUILayout.Button("Server")) NetworkManager.Singleton.StartServer();
-    }
-    
-    public static string Sanitize(string dirtyString)
-    {
-        // sanitize the input for the ip address
-        return Regex.Replace(dirtyString, "[^A-Za-z0-9.]", "");
     }
 
     static void StatusLabels()

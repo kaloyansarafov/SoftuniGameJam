@@ -41,19 +41,10 @@ namespace StarterAssets
 
         private void Move()
         {
-            var movement = new Vector3(
-                Keyboard.current.aKey.isPressed ? -1 : Keyboard.current.dKey.isPressed ? 1 : 0,
-                0,
-                Keyboard.current.sKey.isPressed ? -1 : Keyboard.current.wKey.isPressed ? 1 : 0
-            );
-            if (movement is { z: 0, x: 0 })
+            if (Keyboard.current.wKey.isPressed)
             {
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
-            }
-            else
-            {
-                //move with rigidbody
-                GetComponent<Rigidbody>().velocity = movement * m_MovementSpeed;
+                var movement = transform.right * m_MovementSpeed * Time.deltaTime;
+                GetComponent<Rigidbody>().MovePosition(transform.position + movement);
             }
         }
 
