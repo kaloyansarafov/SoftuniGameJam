@@ -23,7 +23,7 @@ public class BallController : NetworkBehaviour
         //make velocity slowly decrease
     }
     
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         //if(!IsServer)
         //   return;
@@ -35,9 +35,13 @@ public class BallController : NetworkBehaviour
             Debug.Log("hit player");
             if (other.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1f)
             {
+                Debug.Log("hit player hard");
                 other.gameObject.GetComponent<RobotController>().isAlive.Value = false;
                 gameObject.GetComponent<SphereCollider>().radius += 1f;
             }
         }
     }
+    
+    
+    
 }
