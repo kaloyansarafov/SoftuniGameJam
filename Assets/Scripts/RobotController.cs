@@ -46,13 +46,13 @@ namespace StarterAssets
         {
             if (Keyboard.current.wKey.isPressed)
             {
-                GetComponentInChildren<Animator>().SetInteger("Movement", 0);
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponentInChildren<Animator>().SetInteger("Movement", 1);
+                var movement = transform.right * m_MovementSpeed * Time.deltaTime;
+                GetComponent<Rigidbody>().MovePosition(transform.position + movement);
             }
             else
             {
-                GetComponentInChildren<Animator>().SetInteger("Movement", 1);
-                transform.position += movement * (m_MovementSpeed * Time.deltaTime);
+                GetComponentInChildren<Animator>().SetInteger("Movement", 0);
             }
         }
 

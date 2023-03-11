@@ -74,11 +74,14 @@ public class ServerManager : NetworkBehaviour
             {
                 StartGame(players);
             }
-        }
 
-        if (OnlyOnePlayerAlive())
-        {
-            EndGame();
+            if (gameStarted)
+            {
+                if (OnlyOnePlayerAlive())
+                {
+                    EndGame();
+                }
+            }
         }
     }
     
