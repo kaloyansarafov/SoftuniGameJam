@@ -43,7 +43,7 @@ namespace StarterAssets
                 0,
                 Keyboard.current.sKey.isPressed ? -1 : Keyboard.current.wKey.isPressed ? 1 : 0
             );
-            transform.position += movement * (m_MovementSpeed * Time.deltaTime);
+           transform.position += movement * m_MovementSpeed * Time.deltaTime;
         }
 
         private void LookAtMouse()
@@ -71,7 +71,15 @@ namespace StarterAssets
 
         public void Dash(float velocity)
         {
-            transform.position += transform.right * velocity;
+            //get the rigidbody of the player and set the velocity to the forward direction of the player * the velocity of the dash
+            GetComponent<Rigidbody>().velocity = transform.forward * velocity;
+
+
+
+
+
+
+
         }
     }
 }
