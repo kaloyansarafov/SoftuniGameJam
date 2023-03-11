@@ -45,7 +45,7 @@ namespace StarterAssets
                 0,
                 Keyboard.current.sKey.isPressed ? -1 : Keyboard.current.wKey.isPressed ? 1 : 0
             );
-           transform.position += movement * m_MovementSpeed * Time.deltaTime;
+           transform.position += movement * (m_MovementSpeed * Time.deltaTime);
         }
 
         private void LookAtMouse()
