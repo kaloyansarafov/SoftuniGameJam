@@ -5,6 +5,7 @@ using StarterAssets;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -74,8 +75,28 @@ public class ServerManager : NetworkBehaviour
                 StartGame(players);
             }
         }
+
+        if (OnlyOnePlayerAlive())
+        {
+            EndGame();
+        }
     }
     
+
+    private bool OnlyOnePlayerAlive()
+    {
+        var alivePlayers = 0;
+        foreach (var player in players)
+        {
+            if (player.isAlive.Value)
+            {
+                alivePlayers++;
+            }
+        }
+
+        return alivePlayers == 1;
+    }
+
     private void StartGame(RobotController[] players)
     {
         gameStarted = true;
@@ -86,5 +107,14 @@ public class ServerManager : NetworkBehaviour
         }
         
         var blackHole = Instantiate(blackHolePrefab);
+    }
+    
+    private void EndGame()
+    {
+        gameStarted = false;
+        
+        //reload scene
+        var scene = EditorSceneManager.GetActiveScene();
+        EditorSceneManager.OpenScene(scene.path);
     }
 }
