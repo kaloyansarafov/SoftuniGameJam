@@ -15,4 +15,4 @@ MonoBehaviour:
   name: Dash
   cooldown: 5
   duration: 0.3
-  velocity: 10
+  velocity: 6
