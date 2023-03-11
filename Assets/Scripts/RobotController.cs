@@ -70,7 +70,9 @@ namespace StarterAssets
 
         public void Dash(float velocity)
         {
-            transform.position += transform.right * velocity;
+            if(gameStarted.Value == false)
+                return;
+            GetComponent<Rigidbody>().velocity = transform.forward * velocity;
         }
 
         public void Attack()

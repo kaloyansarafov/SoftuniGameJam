@@ -1,12 +1,20 @@
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using StarterAssets;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ServerManager : NetworkBehaviour
 {
+    public GameObject blackHolePrefab;
     private bool gameStarted = false;
+
+    private IReadOnlyList<NetworkClient> _clients;
+    private RobotController[] players;
+
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
@@ -62,11 +70,12 @@ public class ServerManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)
         {
-            var players = FindObjectsOfType<RobotController>();
-            if (players.Length > 1)
+            players = FindObjectsOfType<RobotController>();
+            _clients = NetworkManager.Singleton.ConnectedClientsList;
+            
+            if (!gameStarted && Keyboard.current.pKey.wasPressedThisFrame)
             {
-                if (!gameStarted)
-                    if(GUILayout.Button("Begin!")) StartGame(players);
+                StartGame(players);
             }
         }
     }
@@ -77,6 +86,9 @@ public class ServerManager : NetworkBehaviour
         foreach (var player in players)
         {
             player.gameStarted.Value = true;
+            player.isAlive.Value = true;
         }
+        
+        var blackHole = Instantiate(blackHolePrefab);
     }
 }
