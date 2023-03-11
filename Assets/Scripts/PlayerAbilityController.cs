@@ -1,4 +1,5 @@
 ﻿using Unity.Netcode;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -42,6 +43,8 @@ namespace StarterAssets
                     if (Keyboard.current[(Key)abilityKey].wasPressedThisFrame)
                     {
                         ability.Use(gameObject);
+
+
                         state = AbilityState.Active;
                         duration = ability.duration;
                     }

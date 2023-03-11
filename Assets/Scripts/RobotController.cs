@@ -17,12 +17,15 @@ namespace StarterAssets
         public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false);
 
+        public Animator animator;
         public override void OnNetworkSpawn()
         {
+            
             base.OnNetworkSpawn();
             //set the player's color
             var meshRenderer = GetComponentInChildren<MeshRenderer>();
             meshRenderer.material.color = Random.ColorHSV();
+            animator = GetComponentInChildren<Animator>();
         }
         
         // Update is called once per frame
@@ -47,10 +50,12 @@ namespace StarterAssets
             );
             if (movement is { z: 0, x: 0 })
             {
+                GetComponentInChildren<Animator>().SetInteger("Movement", 0);
                 GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
             else
             {
+                GetComponentInChildren<Animator>().SetInteger("Movement", 1);
                 transform.position += movement * (m_MovementSpeed * Time.deltaTime);
             }
         }
@@ -75,10 +80,12 @@ namespace StarterAssets
 
         public void Attack()
         {
+            
             if(gameStarted.Value == false)
                 return;
             // if left click is hit
             Debug.Log("left click");
+            GetComponentInChildren<Animator>().SetTrigger("Attack");
             if (Physics.OverlapSphere(new Vector3(transform.right.x + transform.position.x, transform.position.y + transform.right.y, transform.position.z + transform.right.z), 2f, LayerMask.GetMask("Ball")).Length > 0)
             {
                 Physics.OverlapSphere(transform.position, 10f, LayerMask.GetMask("Ball"))[0].gameObject
