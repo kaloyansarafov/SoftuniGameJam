@@ -1,30 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
+using Unity.Netcode;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class BallController : MonoBehaviour
+public class BallController : NetworkBehaviour
 {
     private float launchTime;
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
-        
+        base.OnNetworkSpawn();
+        gameObject.GetComponentInParent<Rigidbody>().isKinematic = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //if (Time.time - launchTime >= 1f)
-        //{
-        //    GetComponent<Rigidbody>().velocity -= GetComponent<Rigidbody>().velocity.normalized * 2 * Time.deltaTime;
-        //}
-    }
+
     public void recieveHit(Vector3 direction)
     {
         //push the ball in direction with rb
-        GetComponent<Rigidbody>().velocity = direction.normalized * 20;
+        GetComponentInParent<Rigidbody>().velocity = direction.normalized * 20;
         //make velocity slowly decrease
-
+    }
+    
+    private void OnCollisionEnter(Collision other)
+    {
+        //if(!IsServer)
+        //   return;
+        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("hit player");
+            if (other.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 1f)
+            {
+                other.gameObject.GetComponent<RobotController>().isAlive.Value = false;
+                gameObject.GetComponent<SphereCollider>().radius += 1f;
+            }
+        }
     }
 }

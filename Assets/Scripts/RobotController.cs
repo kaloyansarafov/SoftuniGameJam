@@ -20,6 +20,7 @@ namespace StarterAssets
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            isAlive.OnValueChanged += Die;
             //set the player's color
             var meshRenderer = GetComponentInChildren<MeshRenderer>();
             meshRenderer.material.color = Random.ColorHSV();
@@ -51,7 +52,8 @@ namespace StarterAssets
             }
             else
             {
-                transform.position += movement * (m_MovementSpeed * Time.deltaTime);
+                //move with rigidbody
+                GetComponent<Rigidbody>().velocity = movement * m_MovementSpeed;
             }
         }
 
@@ -72,7 +74,7 @@ namespace StarterAssets
         {
             if(gameStarted.Value == false)
                 return;
-            GetComponent<Rigidbody>().velocity = transform.forward * velocity;
+            GetComponent<Rigidbody>().velocity = transform.right * velocity;
         }
 
         public void Attack()
@@ -81,8 +83,9 @@ namespace StarterAssets
                 return;
             // if left click is hit
             Debug.Log("left click");
-            if (Physics.OverlapSphere(new Vector3(transform.right.x + transform.position.x, transform.position.y + transform.right.y, transform.position.z + transform.right.z), 2f, LayerMask.GetMask("Ball")).Length > 0)
+            if (Physics.OverlapSphere(new Vector3(transform.right.x + transform.position.x, transform.position.y + transform.right.y, transform.position.z + transform.right.z), 3f, LayerMask.GetMask("Ball")).Length > 0)
             {
+                Debug.Log(LayerMask.GetMask("Ball"));
                 Physics.OverlapSphere(transform.position, 10f, LayerMask.GetMask("Ball"))[0].gameObject
                     .GetComponent<BallController>().recieveHit(new Vector3(transform.forward.z, transform.forward.y, -transform.forward.x));
 
@@ -95,13 +98,16 @@ namespace StarterAssets
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(new Vector3(transform.right.x + transform.position.x , transform.position.y + transform.right.y, transform.position.z + transform.right.z), 2f);
+            Gizmos.DrawWireSphere(new Vector3(transform.right.x + transform.position.x , transform.position.y + transform.right.y, transform.position.z + transform.right.z), 3f);
         }
         
-        public void Die()
+        public void Die(bool oldVal, bool newVal)
         {
-            isAlive.Value = false;
-            Destroy(gameObject);
+            if (!IsOwner || !IsServer)
+                return;
+            
+            if (newVal == false)
+                Destroy(gameObject);
         }
     }
 }

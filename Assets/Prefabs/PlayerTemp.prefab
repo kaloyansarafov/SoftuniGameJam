@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4487130e585e4c35b59f37b45bbed1ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovementSpeed: 3
+  m_MovementSpeed: 15
   isAlive:
     m_InternalValue: 1
   gameStarted:
@@ -131,10 +131,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.3199959
-  m_Height: 5.7447977
+  m_Radius: 1.319996
+  m_Height: 7.121328
   m_Direction: 1
-  m_Center: {x: 0.13928413, y: 3.2223945, z: 0.6807122}
+  m_Center: {x: 0.13928413, y: 3.196091, z: 0.6807122}
 --- !u!114 &7613802593140365188
 MonoBehaviour:
   m_ObjectHideFlags: 0
