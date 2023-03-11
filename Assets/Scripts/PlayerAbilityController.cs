@@ -8,7 +8,7 @@ namespace StarterAssets
     public class PlayerAbilityController : NetworkBehaviour
     {
         public Ability ability;
-        public KeyCode abilityKey;
+        public Key abilityKey = Key.F;
         private float cooldown;
         private float duration;
         
@@ -39,7 +39,7 @@ namespace StarterAssets
             switch (state)
             {
                 case AbilityState.Ready:
-                    if (Keyboard.current.qKey.wasPressedThisFrame)
+                    if (Keyboard.current[Key.F].wasPressedThisFrame)
                     {
                         ability.Use(gameObject);
                         state = AbilityState.Active;
