@@ -34,7 +34,21 @@ public class ServerManager : NetworkBehaviour
 
     static void StartButtons()
     {
-        if (GUILayout.Button("Host")) NetworkManager.Singleton.StartHost();
+        if (GUILayout.Button("Host"))
+        {
+            var utpTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+            if (utpTransport)
+            {
+                var ip = GameObject.Find("InputField").GetComponent<TMPro.TMP_InputField>().text;
+                Debug.Log(ip);
+                utpTransport.SetConnectionData(ip, (ushort)7777);
+                Debug.Log(utpTransport.ConnectionData.Address + " " + utpTransport.ConnectionData.Port);
+            }
+            if (!NetworkManager.Singleton.StartHost())
+            {
+                Debug.LogError("Failed to start host.");
+            }
+        }
         if (GUILayout.Button("Client"))
         {
             var utpTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
