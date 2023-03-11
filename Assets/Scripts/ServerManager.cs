@@ -4,8 +4,9 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
-public class ServerManager : MonoBehaviour
+public class ServerManager : NetworkBehaviour
 {
+    private bool gameStarted = false;
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
@@ -55,5 +56,27 @@ public class ServerManager : MonoBehaviour
         GUILayout.Label("Transport: " +
                         NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetType().Name);
         GUILayout.Label("Mode: " + mode);
+    }
+    
+    void Update()
+    {
+        if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)
+        {
+            var players = FindObjectsOfType<RobotController>();
+            if (players.Length > 1)
+            {
+                if (!gameStarted)
+                    if(GUILayout.Button("Begin!")) StartGame(players);
+            }
+        }
+    }
+    
+    private void StartGame(RobotController[] players)
+    {
+        gameStarted = true;
+        foreach (var player in players)
+        {
+            player.gameStarted.Value = true;
+        }
     }
 }

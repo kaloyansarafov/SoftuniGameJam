@@ -13,6 +13,9 @@ namespace StarterAssets
         private Vector3 object_pos;
         private float angle;
 
+        public NetworkVariable<bool> isAlive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        public NetworkVariable<bool> gameStarted = new NetworkVariable<bool>(false);
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
@@ -32,10 +35,6 @@ namespace StarterAssets
             Move();
 
             LookAtMouse();
-            
-           
-            
-           
         }
 
         private void Move()
@@ -45,7 +44,14 @@ namespace StarterAssets
                 0,
                 Keyboard.current.sKey.isPressed ? -1 : Keyboard.current.wKey.isPressed ? 1 : 0
             );
-           transform.position += movement * (m_MovementSpeed * Time.deltaTime);
+            if (movement is { z: 0, x: 0 })
+            {
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
+            }
+            else
+            {
+                transform.position += movement * (m_MovementSpeed * Time.deltaTime);
+            }
         }
 
         private void LookAtMouse()
@@ -70,19 +76,22 @@ namespace StarterAssets
 
         public void Attack()
         {
-
+            if(gameStarted.Value == false)
+                return;
             // if left click is hit
-           
-                Debug.Log("left click");
+            Debug.Log("left click");
                 if (Physics.OverlapSphere(transform.position, 10, LayerMask.GetMask("Ball")).Length > 0)
                 {
                     Physics.OverlapSphere(transform.position, 10, LayerMask.GetMask("Ball"))[0].gameObject
                         .GetComponent<BallController>().recieveHit(transform.forward);
                     Debug.Log("hit");
                 }
-            
-
-
+        }
+        
+        public void Die()
+        {
+            isAlive.Value = false;
+            Destroy(gameObject);
         }
     }
 }
